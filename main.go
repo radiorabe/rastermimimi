@@ -138,7 +138,7 @@ func main() {
 		}
 	</style>
 	<h1>technisches Programmraster Mimimi</h1>
-	<nav><a href="/refresh">Refresh...</a> | <a href="#" onclick="alert('ja nid usdrucke!, so vowäge umwäut!')">Drucken...</a></nav>
+	<nav><a href="/refresh">Refresh...</a> | <a href="#" onclick="alert('ja nid usdrucke!, so vowäge umwäut!')">Drucken...</a> | <a href="https://github.com/radiorabe/rastermimimi">GitHub...</a></nav>
 	<p>Dieses Tool hat in den nächsten 60 Tagen {{.|len}} Mimimis gefunden.</p>
 	{{$otime := "02 Jan 2006 15:04:05"}}
 	{{range .}}
@@ -324,12 +324,8 @@ func checkForErrors() {
 			}
 		}
 
-		// skip checks where we ignore Klangbecken
-		if slot.LibreTimeLiveInfoV2Show.Name == "Klangbecken" {
-			continue
-		}
-
-		if !slot.LibreTimeLiveInfoV2Show.Ends.Equal(slot.WebsiteEventOrganizerCalendarEvent.End.Time) {
+		// we allow a difference of > 10 minutes at the end to account for preproduced broadcasts that go into overtime
+		if !slot.LibreTimeLiveInfoV2Show.Ends.Equal(slot.WebsiteEventOrganizerCalendarEvent.End.Time) && slot.LibreTimeLiveInfoV2Show.Ends.Time.Sub(slot.WebsiteEventOrganizerCalendarEvent.End.Time) > time.Minute*10 {
 			appendError(
 				fmt.Sprintf("Ende auf Webseite (%s) stimmt nicht mit LibreTime (%s) überein.",
 					slot.WebsiteEventOrganizerCalendarEvent.End.Format("02 Jan 2006 15:04:05"),
