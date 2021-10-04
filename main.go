@@ -69,7 +69,7 @@ type LibreTimeLiveInfoV2Show struct {
 }
 type LibreTimeLiveInfoV2Shows struct {
 	Previous []interface{}             `json:"previous"`
-	Current  interface{}               `json:"current"`
+	Current  LibreTimeLiveInfoV2Show   `json:"current"`
 	Next     []LibreTimeLiveInfoV2Show `json:"next"`
 }
 type LibreTimeLiveInfoV2 struct {
@@ -259,6 +259,7 @@ func readFromLibretime(url string, duration int) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	liveInfo.Shows.Next = append(liveInfo.Shows.Next, liveInfo.Shows.Current)
 	for _, ltShow := range liveInfo.Shows.Next {
 		start := ltShow.Starts.String()
 		slot, ok := grid[start]
