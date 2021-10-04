@@ -139,7 +139,7 @@ func main() {
 	</style>
 	<h1>technisches Programmraster Mimimi</h1>
 	<nav><a href="/refresh">Refresh...</a> | <a href="#" onclick="alert('ja nid usdrucke!, so vowäge umwäut!')">Drucken...</a></nav>
-	<p>Dieses Tool hat in den nächsten 60 Tagen {{.|len}} Unstimmingkeiten gefunden.</p>
+	<p>Dieses Tool hat in den nächsten 60 Tagen {{.|len}} Mimimis gefunden.</p>
 	{{$otime := "02 Jan 2006 15:04:05"}}
 	{{range .}}
 	{{$time := .Time.Format "02 Jan 2006 15:04:05"}}
