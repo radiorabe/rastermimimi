@@ -287,20 +287,20 @@ func checkForErrors() {
 		}
 		if slot.WebsiteEventOrganizerCalendarEvent.Title != "" && slot.LibreTimeLiveInfoV2Show.Name == "" {
 			if slot.WebsiteEventOrganizerCalendarEvent.Title != "Klangbecken" {
-				appendError(fmt.Sprintf("%s fehlt in LibreTime.",
+				appendError(fmt.Sprintf("%s fehlt im LibreTime.",
 					slot.WebsiteEventOrganizerCalendarEvent.Title),
 					slot.WebsiteEventOrganizerCalendarEvent.Start, slot)
 			}
 		} else if slot.LibreTimeLiveInfoV2Show.Name != "" && slot.WebsiteEventOrganizerCalendarEvent.Title == "" {
 			if slot.LibreTimeLiveInfoV2Show.Name != "Klangbecken" {
 				appendError(
-					fmt.Sprintf("%s fehlt auf Web Seite.",
+					fmt.Sprintf("%s fehlt auf der Webseite.",
 						slot.LibreTimeLiveInfoV2Show.Name),
 					slot.LibreTimeLiveInfoV2Show.Starts, slot)
 			}
 		} else if slot.WebsiteEventOrganizerCalendarEvent.Title != slot.LibreTimeLiveInfoV2Show.Name {
 			appendError(
-				fmt.Sprintf("Titel auf Webseite (%s) stimmt nicht mit LibreTime (%s) überein.",
+				fmt.Sprintf("Titel auf der Webseite (%s) stimmt nicht mit LibreTime (%s) überein.",
 					slot.WebsiteEventOrganizerCalendarEvent.Title, slot.LibreTimeLiveInfoV2Show.Name),
 				slot.WebsiteEventOrganizerCalendarEvent.Start, slot)
 		}
@@ -313,12 +313,12 @@ func checkForErrors() {
 		if slot.LibreTimeLiveInfoV2Show.URL != slot.WebsiteEventOrganizerCalendarEvent.URL {
 			if slot.WebsiteEventOrganizerCalendarEvent.URL == "#" {
 				appendError(
-					fmt.Sprintf("Keine URL für Sendung %s auf Website hinterlegt.",
+					fmt.Sprintf("Sendung %s hat keine URL auf der Webseite.",
 						slot.WebsiteEventOrganizerCalendarEvent.Title),
 					slot.WebsiteEventOrganizerCalendarEvent.Start, slot)
 			} else {
 				appendError(
-					fmt.Sprintf("URL auf Webseite (%s) stimmt nicht mit LibreTime (%s) überein.",
+					fmt.Sprintf("URL auf der Webseite (%s) stimmt nicht mit LibreTime (%s) überein.",
 						slot.WebsiteEventOrganizerCalendarEvent.URL, slot.LibreTimeLiveInfoV2Show.URL),
 					slot.WebsiteEventOrganizerCalendarEvent.Start, slot)
 			}
@@ -327,9 +327,17 @@ func checkForErrors() {
 		// we allow a difference of > 10 minutes at the end to account for preproduced broadcasts that go into overtime
 		if !slot.LibreTimeLiveInfoV2Show.Ends.Equal(slot.WebsiteEventOrganizerCalendarEvent.End.Time) && slot.LibreTimeLiveInfoV2Show.Ends.Time.Sub(slot.WebsiteEventOrganizerCalendarEvent.End.Time) > time.Minute*10 {
 			appendError(
-				fmt.Sprintf("Ende auf Webseite (%s) stimmt nicht mit LibreTime (%s) überein.",
+				fmt.Sprintf("Ende auf der Webseite (%s) stimmt nicht mit LibreTime (%s) überein.",
 					slot.WebsiteEventOrganizerCalendarEvent.End.Format("02 Jan 2006 15:04:05"),
 					slot.LibreTimeLiveInfoV2Show.Ends.Format("02 Jan 2006 15:04:05")),
+				slot.WebsiteEventOrganizerCalendarEvent.Start, slot)
+		}
+
+		// check if description is set on web (archiv.rabe.ch uses this information)
+		if slot.WebsiteEventOrganizerCalendarEvent.Description == "" {
+			appendError(
+				fmt.Sprintf("Beschreibung für Sendung %s fehlt auf der Webseite.",
+					slot.WebsiteEventOrganizerCalendarEvent.Title),
 				slot.WebsiteEventOrganizerCalendarEvent.Start, slot)
 		}
 
