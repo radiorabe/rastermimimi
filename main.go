@@ -124,6 +124,15 @@ func main() {
 			font-family: sans-serif;
 			font-size: 0.9em;
 		}
+		@media (prefers-color-scheme: dark) {
+			html, body {
+				background-color: black;
+				color: lightgray;
+			}
+			:link {
+				color: mediumpurple;
+			}
+		}
 		article {
 			border: 1px solid gray;
 			padding: 1em;
