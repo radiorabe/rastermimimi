@@ -137,6 +137,15 @@ func main() {
 			margin-left: 0;
 		}
 	</style>
+	<script>
+		window.onbeforeprint = function(event) {
+			document.body.style.display = 'none';
+			window.alert('ja nid usdrucke!, so vowäge umwäut!')
+		};
+		window.onafterprint = function(event) {
+			document.body.style.display = ''
+		};
+	</script>
 	<h1>technisches Programmraster Mimimi</h1>
 	<nav><a href="/refresh">Refresh...</a> | <a href="#" onclick="alert('ja nid usdrucke!, so vowäge umwäut!')">Drucken...</a> | <a href="https://github.com/radiorabe/rastermimimi">GitHub...</a></nav>
 	<p>Dieses Tool hat in den nächsten 60 Tagen {{.|len}} Mimimis gefunden.</p>
