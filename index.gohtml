@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<title>Raster Mimimi</title>
+<style>
+	html, body {
+		font-family: sans-serif;
+		font-size: 0.9em;
+	}
+	@media (prefers-color-scheme: dark) {
+		html, body {
+			background-color: black;
+			color: lightgray;
+		}
+		:link {
+			color: mediumpurple;
+		}
+	}
+	article {
+		border: 1px solid gray;
+		padding: 1em;
+		margin-bottom: 0.5em;
+	}
+	section {
+		margin-left: 2em;
+	}
+	section.lead {
+		font-size: 1.5em;
+		margin-left: 0;
+	}
+</style>
+<script>
+	window.onbeforeprint = function(event) {
+		document.body.style.display = 'none';
+		window.alert('ja nid usdrucke!, so vowäge umwäut!')
+	};
+	window.onafterprint = function(event) {
+		document.body.style.display = ''
+	};
+</script>
+<h1>technisches Programmraster Mimimi</h1>
+<nav><a href="/refresh">Refresh...</a> | <a href="#" onclick="alert('ja nid usdrucke!, so vowäge umwäut!')">Drucken...</a> | <a href="https://github.com/radiorabe/rastermimimi">GitHub...</a></nav>
+<p>Dieses Tool hat in den nächsten 60 Tagen {{.|len}} Mimimis gefunden.</p>
+{{$otime := "02 Jan 2006 15:04:05"}}
+{{range .}}
+{{$time := .Time.Format "02 Jan 2006 15:04:05"}}
+{{if ne $time $otime}}
+<hr>
+<h2>{{$time}}</h2>
+{{end}}
+<article>
+	<section class="lead">{{.Message}}</section>
+	<!-- {{.}} -->
+	{{if .Slot.WebsiteEventOrganizerCalendarEvent.Title}}
+	<section>
+	<h3>Web: {{.Slot.WebsiteEventOrganizerCalendarEvent.Title}}</h3>
+	<p>{{.Slot.WebsiteEventOrganizerCalendarEvent.Start.Format "02 Jan 2006 15:04:05"}} - {{.Slot.WebsiteEventOrganizerCalendarEvent.End.Format "02 Jan 2006 15:04:05"}}</p>
+	<p><b>URL:</b> <code>{{.Slot.WebsiteEventOrganizerCalendarEvent.URL}}</code></p>
+	</section>
+	{{end}}
+	{{if .Slot.LibreTimeLiveInfoV2Show.Name}}
+	<section>
+	<h3>LibreTime: {{.Slot.LibreTimeLiveInfoV2Show.Name}}</h3>
+	<p>{{.Slot.LibreTimeLiveInfoV2Show.Starts.Format "02 Jan 2006 15:04:05"}} - {{.Slot.LibreTimeLiveInfoV2Show.Ends.Format "02 Jan 2006 15:04:05"}}</p>
+	<p><b>URL:</b> <code>{{.Slot.LibreTimeLiveInfoV2Show.URL}}</code></p>
+	</section>
+	{{end}}
+</article>
+{{$otime = $time}}
+{{end}}
