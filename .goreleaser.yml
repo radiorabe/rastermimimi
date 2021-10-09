@@ -3,7 +3,7 @@ before:
     - go mod download
 builds:
 - id: main
-  main: main.go
+  main: .
   binary: rastermimimi
   env:
   - CGO_ENABLED=0
