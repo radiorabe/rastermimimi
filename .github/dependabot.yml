@@ -9,7 +9,7 @@ updates:
       prefix: "feat(deps): "
       prefix-development: "chore(deps): "
     open-pull-requests-limit: 20
-    
+
   # Maintain dependencies for GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
