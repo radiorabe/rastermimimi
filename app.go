@@ -191,11 +191,14 @@ func (a *App) checkForErrors(grid map[string]gridSlot, errors gridErrors) gridEr
 
 		// we allow a difference of > 10 minutes at the end to account for preproduced broadcasts that go into overtime
 		if !slot.LibreTimeLiveInfoV2Show.Ends.Equal(slot.WebsiteEventOrganizerCalendarEvent.End.Time) && slot.LibreTimeLiveInfoV2Show.Ends.Time.Sub(slot.WebsiteEventOrganizerCalendarEvent.End.Time) > time.Minute*10 {
-			errors = a.appendError(errors,
-				fmt.Sprintf("Ende auf Webseite (%s) stimmt nicht mit LibreTime (%s) überein.",
-					slot.WebsiteEventOrganizerCalendarEvent.End.Format("02 Jan 2006 15:04:05"),
-					slot.LibreTimeLiveInfoV2Show.Ends.Format("02 Jan 2006 15:04:05")),
-				slot.WebsiteEventOrganizerCalendarEvent.Start, slot)
+			// ignore shows that end at exactly 23:59:00 since they are an artifact of how we display shows on our wordpress page
+			if slot.WebsiteEventOrganizerCalendarEvent.End.Format("15:04:05") != "23:59:00" {
+				errors = a.appendError(errors,
+					fmt.Sprintf("Ende auf Webseite (%s) stimmt nicht mit LibreTime (%s) überein.",
+						slot.WebsiteEventOrganizerCalendarEvent.End.Format("02 Jan 2006 15:04:05"),
+						slot.LibreTimeLiveInfoV2Show.Ends.Format("02 Jan 2006 15:04:05")),
+					slot.WebsiteEventOrganizerCalendarEvent.Start, slot)
+			}
 		}
 
 	}
