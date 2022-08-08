@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"html"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"sort"
@@ -69,7 +69,7 @@ func (a *App) loadWebsite(grid map[string]gridSlot, errors gridErrors) (map[stri
 		log.Fatal(err)
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -112,7 +112,7 @@ func (a *App) loadLibretime(grid map[string]gridSlot) map[string]gridSlot {
 		log.Fatal(err)
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		log.Fatal(err)
 	}

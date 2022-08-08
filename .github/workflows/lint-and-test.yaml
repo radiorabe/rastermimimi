@@ -27,12 +27,10 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v3
         with:
-          go-version: 1.16.x
+          go-version: 1.19.x
 
       - name: Run GolangCI-Lint
         uses: golangci/golangci-lint-action@v3
-        with:
-          skip-go-installation: true
 
   goreleaser:
     runs-on: ubuntu-latest
