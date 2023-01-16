@@ -7,7 +7,7 @@ builds:
   binary: rastermimimi
   env:
   - CGO_ENABLED=0
-goos:
+  goos:
   - darwin
   - linux
 archives:
