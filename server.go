@@ -36,5 +36,13 @@ func (s *Server) Setup() {
 }
 
 func (s Server) ListenAndServe() error {
+	if s.app.config.tlsCert != "" && s.app.config.tlsKey != "" {
+		return http.ListenAndServeTLS(
+			s.app.config.listenAddr,
+			s.app.config.tlsCert,
+			s.app.config.tlsKey,
+			nil,
+		)
+	}
 	return http.ListenAndServe(s.app.config.listenAddr, nil)
 }

@@ -12,6 +12,9 @@ type AppConfig struct {
 	websiteURL   string
 
 	listenAddr string
+
+	tlsCert string
+	tlsKey  string
 }
 
 type LocalTime struct {

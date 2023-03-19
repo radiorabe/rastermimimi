@@ -25,6 +25,9 @@ func main() {
 	}
 	duration := flag.Int("duration", durationDefault, "How far ahead to check in days")
 
+	tlsCert := flag.String("tls-cert", getenv("MIMIMI_TLS_CERT", ""), "path to TLS cert")
+	tlsKey := flag.String("tls-key", getenv("MIMIMI_TLS_KEY", ""), "path to TLS key")
+
 	flag.Parse()
 
 	// configure and run app and server
@@ -36,6 +39,9 @@ func main() {
 			libretimeURL: *libretimeURL,
 
 			listenAddr: *listenAddr,
+
+			tlsCert: *tlsCert,
+			tlsKey:  *tlsKey,
 		},
 	)
 	app.Load()
