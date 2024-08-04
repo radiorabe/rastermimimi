@@ -7,7 +7,9 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"regexp"
 	"sort"
+	"strings"
 	"sync/atomic"
 	"time"
 )
@@ -181,11 +183,20 @@ func (a *App) checkForErrors(grid map[string]gridSlot, errors gridErrors) gridEr
 					fmt.Sprintf("Keine URL für Sendung %s auf Website hinterlegt.",
 						slot.WebsiteEventOrganizerCalendarEvent.Title),
 					slot.WebsiteEventOrganizerCalendarEvent.Start, slot)
-			} else {
+			} else if slot.LibreTimeLiveInfoV2Show.URL == "" {
 				errors = a.appendError(errors,
-					fmt.Sprintf("URL auf Webseite (%s) stimmt nicht mit LibreTime (%s) überein.",
-						slot.WebsiteEventOrganizerCalendarEvent.URL, slot.LibreTimeLiveInfoV2Show.URL),
+					fmt.Sprintf("URL auf Webseite (%s) fehlt in LibreTime.",
+						slot.WebsiteEventOrganizerCalendarEvent.URL),
 					slot.WebsiteEventOrganizerCalendarEvent.Start, slot)
+			} else {
+				// ignore trailing `-<number>/` from website URLs under the /events/ path for now
+				match, _ := regexp.MatchString("^"+strings.Replace(slot.LibreTimeLiveInfoV2Show.URL, "rabe.ch", "rabe.ch/event", 1)+"(-[0-9]+/)", slot.WebsiteEventOrganizerCalendarEvent.URL)
+				if !match {
+					errors = a.appendError(errors,
+						fmt.Sprintf("URL auf Webseite (%s) stimmt nicht mit LibreTime (%s) überein.",
+							slot.WebsiteEventOrganizerCalendarEvent.URL, slot.LibreTimeLiveInfoV2Show.URL),
+						slot.WebsiteEventOrganizerCalendarEvent.Start, slot)
+				}
 			}
 		}
 
