@@ -44,9 +44,9 @@ jobs:
           go-version: 1.16.x
 
       - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v5.1.0
+        uses: goreleaser/goreleaser-action@v6.0.0
         with:
           version: latest
-          args: --snapshot --skip-publish --rm-dist
+          args: --snapshot --skip=publish --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
