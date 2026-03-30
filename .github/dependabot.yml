@@ -1,20 +1,23 @@
 version: 2
 updates:
-  # Update Go modules
-  - package-ecosystem: "gomod"
-    directory: "/"
+  - package-ecosystem: gomod
+    directory: /
     schedule:
-      interval: "daily"
+      interval: daily
     commit-message:
-      prefix: "feat(deps): "
-      prefix-development: "chore(deps): "
-    open-pull-requests-limit: 20
-
-  # Maintain dependencies for GitHub Actions
-  - package-ecosystem: "github-actions"
-    directory: "/"
+      prefix: "chore(deps): "
+      prefix-development: "chore(deps-dev): "
+    cooldown:
+      default-days: 7
+  - package-ecosystem: github-actions
+    directory: /
     schedule:
-      interval: "daily"
+      interval: daily
     commit-message:
       prefix: "chore(ci): "
-    open-pull-requests-limit: 10
+    groups:
+      actions:
+        patterns:
+          - "*"
+    cooldown:
+      default-days: 7
